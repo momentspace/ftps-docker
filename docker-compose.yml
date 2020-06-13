@@ -9,5 +9,5 @@ services:
       PASV_MIN_PORT: 30110
       PASV_MAX_PORT: 30119
     ports:
-      - "10211:21"
+      - "990:21"
       - "30110-30119:30110-30119"
