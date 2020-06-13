@@ -2,21 +2,21 @@ require 'openssl'
 require 'double_bag_ftps'
 require 'fileutils'
 
-DoubleBagFTPS.open('localhost', 'ftps', 'pass', nil, DoubleBagFTPS::IMPLICIT, verify_mode: OpenSSL::SSL::VERIFY_NONE) do |ftps|
+DoubleBagFTPS.open('localhost', 'files', 'pass', nil, DoubleBagFTPS::IMPLICIT, { verify_mode: OpenSSL::SSL::VERIFY_NONE }) do |ftps|
   ftps.passive = true
   ftps.debug_mode = true
 
+  list = ftps.nlst
+  puts list
+  
   # 作業dir作成
-  work_dir = "dir_test_#{Date.current.strftime('%H%M%S')}"
-  ftps.mkdir("./remote/#{work_dir}")
-  ftps.chdir("./remote/#{work_dir}")
+  work_dir = "dir_test_#{Time.now.strftime('%H%M%S')}"
+  ftps.mkdir("./#{work_dir}")
+  ftps.chdir("./#{work_dir}")
   puts "SMBCにFTPSで接続しました。localhost:10211:ftps:pass"
 
   list = ftps.nlst
   puts list
-
-  # ftps.nlst("-F R_M_#{code}").first
-  # puts "SMBCにFTPSで接続しました。localhost:10211:ftps:pass"
 
   # テスト用ファイル
   FileUtils.touch("touch.txt")
@@ -34,7 +34,7 @@ DoubleBagFTPS.open('localhost', 'ftps', 'pass', nil, DoubleBagFTPS::IMPLICIT, ve
   puts list
 
   # ファイル削除
-  ftps.delete(file)
-  puts "SMBCにFTPSで接続しました。localhost:10211:ftps:pass"
+  ftps.delete("touch.txt")
+  puts "ファイルを削除しました"
 end
 

@@ -1,13 +1,12 @@
 version: "3"
 services:
   ftps:
-    image: phpstorm/ftps
-    volumes:
-      - ./remote:/home/virtual/ftps/remote
+    image: ngeor/vsftpd
     environment:
-      VSFTPD_USER_1: "ftps:pass:1001:"
-      PASV_MIN_PORT: 30110
-      PASV_MAX_PORT: 30119
+      PASSWORD: pass
+    volumes:
+      - ./ftp-srv:/home/files
     ports:
-      - "990:21"
-      - "30110-30119:30110-30119"
+      - "990:990"
+      - "10090-10100:10090-10100"
+    command: sh /docker-entrypoint.sh
