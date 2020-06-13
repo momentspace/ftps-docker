@@ -1,0 +1,13 @@
+version: "3"
+services:
+  ftps:
+    image: phpstorm/ftps
+    volumes:
+      - ./remote:/home/virtual/ftps/remote
+    environment:
+      VSFTPD_USER_1: "ftps:pass:1001:"
+      PASV_MIN_PORT: 30110
+      PASV_MAX_PORT: 30119
+    ports:
+      - "10211:21"
+      - "30110-30119:30110-30119"
